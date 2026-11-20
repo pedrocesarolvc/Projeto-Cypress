@@ -55,7 +55,9 @@ describe("E2E - Jornada completa de compra", () => {
     cy.get('[data-test="inventory-item-name"]').should(($el) => {
       expect($el.text()).to.eq(nome);
     });
-    cy.get('[data-test="subtotal-label"]').should("contain.text", preco.replace("$", ""));
+    cy.get('[data-test="subtotal-label"]').should(($el) => {
+      expect($el.text()).to.contain(preco.replace("$", ""));
+    });
     cy.screenshot("E2E-2-resumo-pedido");
 
     // 6. Confirmação da compra
