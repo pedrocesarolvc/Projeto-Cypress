@@ -21,15 +21,17 @@ describe("Módulo 05 - Responsividade e experiência de navegação", () => {
     cy.visit("/");
 
     cy.get("a.logo").first().should("be.visible");
+    cy.get(".topcart").should("be.visible");
     cy.get(".navbar-toggle").first().should("be.visible");
-    cy.get("#filter_keyword").should("be.visible");
+    // no mobile a barra de categorias do desktop é substituída por uma lista "Go to..."
+    cy.get("ul.categorymenu").should("not.be.visible");
+    cy.contains("option", "Go to...").parent("select").should("be.visible");
+    cy.contains("select option", "Skincare").should("exist");
 
-    // o menu recolhido é aberto pelo botão e passa a exibir os links
+    // a busca fica recolhida até o botão do menu ser acionado
+    cy.get("#filter_keyword").should("not.be.visible");
     cy.get(".navbar-toggle").first().click();
-    cy.get(".navbar-collapse.in, .navbar-collapse.collapse.show, .navbar-collapse")
-      .first()
-      .should("be.visible");
-    cy.get(".topcart").should("exist");
+    cy.get("#filter_keyword").should("be.visible");
     cy.screenshot("RF-15-navegacao-mobile");
   });
 
@@ -37,8 +39,9 @@ describe("Módulo 05 - Responsividade e experiência de navegação", () => {
     cy.viewport(...mobile);
     cy.visit("/");
 
-    cy.get("#filter_keyword").type("bronzer");
-    cy.get(".button-in-search").click();
+    cy.get(".navbar-toggle").first().click();
+    cy.get("#filter_keyword").should("be.visible").type("bronzer");
+    cy.get(".button-in-search").should("be.visible").click();
     cy.url().should("include", "rt=product/search");
     cy.get(".thumbnails.grid .prdocutname")
       .should("have.length.greaterThan", 0)

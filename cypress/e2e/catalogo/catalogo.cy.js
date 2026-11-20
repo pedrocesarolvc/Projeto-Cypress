@@ -6,7 +6,8 @@ describe("Módulo 02 - Catálogo e apresentação de produtos", () => {
   it("RF-05 [positivo] listagem exibe nome, imagem e preço de cada produto", () => {
     cy.visit(categoria("43"));
 
-    cy.get(".thumbnails.grid > div")
+    // os produtos ficam em colunas "col-*"; o grid também contém um <div class="clearfix"> separador
+    cy.get('.thumbnails.grid > div[class*="col-"]')
       .should("have.length.greaterThan", 0)
       .each(($tile) => {
         cy.wrap($tile).within(() => {
