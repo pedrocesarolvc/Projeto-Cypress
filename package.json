@@ -1,10 +1,9 @@
 {
-  "name": "cypress-saucedemo",
+  "name": "cypress-automation-test-store",
   "version": "1.0.0",
-  "description": "Suíte de testes UI e E2E com Cypress para o SauceDemo",
+  "description": "Suíte de testes de interface com Cypress para o Automation Test Store",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run",
     "test": "cypress run"
   },
   "devDependencies": {

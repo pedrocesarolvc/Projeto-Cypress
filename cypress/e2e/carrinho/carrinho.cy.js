@@ -1,81 +1,107 @@
-// Funcionalidade: Carrinho (RF-04, RF-05, RF-06)
-describe("Carrinho de compras", () => {
-  beforeEach(() => {
+// Módulo 03 - Gerenciamento do carrinho (RF-09 a RF-12)
+describe("Módulo 03 - Gerenciamento do carrinho", () => {
+  const produto = (id) => `/index.php?rt=product/product&product_id=${id}`;
+  const carrinho = "/index.php?rt=checkout/cart";
+  const paraNumero = (txt) => parseFloat(txt.replace(/[^0-9.]/g, ""));
+  // contador (quantidade de itens) e total exibidos no topo do site
+  const contadorTopo = () => cy.get(".topcart .label");
+  const totalTopo = () => cy.get(".topcart .cart_total");
+
+  it("RF-09 [positivo] adiciona produto pela página de detalhes e atualiza o carrinho", () => {
+    cy.visit(produto(50));
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("0"));
+
+    cy.get("a.cart").click();
+
+    cy.url().should("include", "rt=checkout/cart");
+    cy.get("h1.heading1 .maintext").should("contain.text", "Shopping Cart");
+    cy.contains(".product-list tr", "Skinsheen Bronzer Stick").within(() => {
+      cy.get('input[name="quantity[50]"]').should("have.value", "1");
+    });
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("1"));
+    totalTopo().should(($t) => expect(paraNumero($t.text())).to.eq(29.5));
+    cy.screenshot("RF-09-produto-adicionado");
+  });
+
+  it("RF-09 [positivo] adiciona produto direto da listagem da página inicial", () => {
     cy.visit("/");
-    cy.get('[data-test="username"]').type("standard_user");
-    cy.get('[data-test="password"]').type("secret_sauce");
-    cy.get('[data-test="login-button"]').click();
-    cy.url().should("include", "/inventory.html");
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("0"));
+
+    cy.get('.productcart[data-id="50"]').first().click();
+
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("1"));
+    totalTopo().should(($t) => expect(paraNumero($t.text())).to.eq(29.5));
+
+    cy.visit(carrinho);
+    cy.get(".product-list").should("contain.text", "Skinsheen Bronzer Stick");
   });
 
-  it("RF-04 - deve adicionar produtos ao carrinho e atualizar o contador", () => {
-    cy.get('[data-test="shopping-cart-badge"]').should("not.exist");
+  it("RF-10 [positivo] atualiza a quantidade de um produto no carrinho", () => {
+    cy.visit(produto(50));
+    cy.get("a.cart").click();
+    cy.url().should("include", "rt=checkout/cart");
 
-    cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    cy.get('[data-test="shopping-cart-badge"]').should("have.text", "1");
-    cy.get('[data-test="remove-sauce-labs-backpack"]').should(
-      "have.text",
-      "Remove"
-    );
+    cy.get('input[name="quantity[50]"]').clear().type("3");
+    cy.get("#cart_update").click();
 
-    cy.get('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-    cy.get('[data-test="shopping-cart-badge"]').should("have.text", "2");
-    cy.screenshot("RF-04-contador-carrinho");
+    cy.get('input[name="quantity[50]"]').should("have.value", "3");
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("3"));
+    cy.screenshot("RF-10-quantidade-atualizada");
   });
 
-  it("RF-05 - deve remover produto do carrinho", () => {
-    cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    cy.get('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-    cy.get('[data-test="shopping-cart-badge"]').should("have.text", "2");
+  it("RF-11 [consistência] recalcula subtotais e total após alterar a quantidade", () => {
+    cy.visit(produto(50));
+    cy.get("a.cart").click();
+    cy.visit(produto(51));
+    cy.get("a.cart").click();
+    cy.url().should("include", "rt=checkout/cart");
 
-    cy.get('[data-test="shopping-cart-link"]').click();
-    cy.url().should("include", "/cart.html");
-    cy.get('[data-test="inventory-item"]').should("have.length", 2);
+    cy.get('input[name="quantity[50]"]').clear().type("3");
+    cy.get("#cart_update").click();
 
-    cy.get('[data-test="remove-sauce-labs-backpack"]').click();
-
-    cy.get('[data-test="inventory-item"]').should("have.length", 1);
-    cy.contains('[data-test="inventory-item-name"]', "Sauce Labs Backpack").should(
-      "not.exist"
-    );
-    cy.get('[data-test="shopping-cart-badge"]').should("have.text", "1");
-
-    cy.get('[data-test="remove-sauce-labs-bike-light"]').click();
-    cy.get('[data-test="inventory-item"]').should("not.exist");
-    cy.get('[data-test="shopping-cart-badge"]').should("not.exist");
-    cy.screenshot("RF-05-carrinho-vazio");
-  });
-
-  it("RF-06 - deve manter nome, preço e quantidade do produto no carrinho", () => {
-    let nome;
-    let preco;
-
-    cy.get('[data-test="inventory-item"]')
-      .first()
-      .within(() => {
-        cy.get('[data-test="inventory-item-name"]')
-          .invoke("text")
-          .then((t) => (nome = t));
-        cy.get('[data-test="inventory-item-price"]')
-          .invoke("text")
-          .then((t) => (preco = t));
-        cy.get("button").click();
-      });
-
-    cy.get('[data-test="shopping-cart-link"]').click();
-    cy.url().should("include", "/cart.html");
-
-    cy.get('[data-test="inventory-item"]')
-      .should("have.length", 1)
-      .within(() => {
-        cy.get('[data-test="inventory-item-name"]').should(($el) => {
-          expect($el.text()).to.eq(nome);
+    // linha do produto 50: 3 x preço unitário
+    cy.contains(".product-list tr", "Skinsheen Bronzer Stick").within(() => {
+      cy.get("td").eq(3).invoke("text").then((unit) => {
+        cy.get("td").eq(5).should(($t) => {
+          expect(paraNumero($t.text())).to.be.closeTo(paraNumero(unit) * 3, 0.001);
         });
-        cy.get('[data-test="inventory-item-price"]').should(($el) => {
-          expect($el.text()).to.eq(preco);
-        });
-        cy.get('[data-test="item-quantity"]').should("have.text", "1");
       });
-    cy.screenshot("RF-06-consistencia-carrinho");
+    });
+    // linha do produto 51 permanece com 1 unidade
+    cy.contains(".product-list tr", "BeneFit Girl Meets Pearl").within(() => {
+      cy.get('input[name="quantity[51]"]').should("have.value", "1");
+      cy.get("td").eq(5).should(($t) => expect(paraNumero($t.text())).to.eq(19));
+    });
+    // total do topo = 3 x 29.50 + 19.00
+    totalTopo().should(($t) => expect(paraNumero($t.text())).to.be.closeTo(107.5, 0.001));
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("4"));
+    cy.screenshot("RF-11-recalculo-total");
+  });
+
+  it("RF-12 [positivo] remove produto e exibe a mensagem de carrinho vazio", () => {
+    cy.visit(produto(50));
+    cy.get("a.cart").click();
+    cy.url().should("include", "rt=checkout/cart");
+
+    cy.get('a[href*="remove=50"]').click();
+
+    cy.get(".contentpanel").should("contain.text", "Your shopping cart is empty!");
+    cy.get(".product-list").should("not.exist");
+    contadorTopo().should(($l) => expect($l.text().trim()).to.eq("0"));
+    cy.get(".contentpanel a[title='Continue']").should("be.visible");
+    cy.screenshot("RF-12-carrinho-vazio");
+  });
+
+  it("RF-12 [negativo] produto sem estoque não oferece botão de adicionar ao carrinho", () => {
+    cy.visit("/index.php?rt=product/category&path=68");
+
+    cy.get(".thumbnails.grid > div")
+      .filter(":has(.nostock)")
+      .should("have.length.at.least", 1)
+      .each(($tile) => {
+        expect($tile.find(".nostock").text()).to.match(/Out of Stock/i);
+        expect($tile.find(".productcart").length, "botão de carrinho").to.eq(0);
+      });
+    cy.screenshot("RF-12-produto-sem-estoque");
   });
 });
