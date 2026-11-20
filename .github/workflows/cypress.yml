@@ -18,13 +18,18 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Executar testes Cypress
-        id: testes
+      - name: Testes funcionais (modulos 01 a 05)
+        id: funcionais
         continue-on-error: true
         run: |
           set -o pipefail
-          mkdir -p evidencias
-          npx cypress run 2>&1 | tee evidencias/execucao.log
+          rm -rf evidencias && mkdir -p evidencias
+          npx cypress run --spec "cypress/e2e/{navegacao,catalogo,carrinho,formularios,responsividade}/*.cy.js" 2>&1 | tee evidencias/execucao.log
+      - name: Testes que reproduzem defeitos (falha esperada)
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npx cypress run --spec "cypress/e2e/defeitos/*.cy.js" --config screenshotsFolder=evidencias/defeitos/screenshots,videosFolder=evidencias/defeitos/videos 2>&1 | tee evidencias/execucao-defeitos.log
       - name: Salvar evidencias no repositorio
         if: always()
         run: |
@@ -38,6 +43,6 @@ jobs:
         with:
           name: evidencias
           path: evidencias
-      - name: Falhar se houve testes reprovados
-        if: steps.testes.outcome == 'failure'
+      - name: Falhar se algum teste funcional foi reprovado
+        if: steps.funcionais.outcome == 'failure'
         run: exit 1

@@ -72,6 +72,17 @@ describe("Módulo 03 - Gerenciamento do carrinho", () => {
       cy.get('input[name="quantity[51]"]').should("have.value", "1");
       cy.get("td").eq(5).should(($t) => expect(paraNumero($t.text())).to.eq(19));
     });
+    // quadro de totais: Sub-Total = 3 x 29.50 + 19.00 e Total = Sub-Total + frete
+    const valorDaLinha = (rotulo) =>
+      cy.contains("#totals_table tr", rotulo).find("td").last().invoke("text").then(paraNumero);
+    valorDaLinha("Sub-Total").should("be.closeTo", 107.5, 0.001);
+    valorDaLinha("Sub-Total").then((subtotal) => {
+      valorDaLinha("Flat Shipping Rate").then((frete) => {
+        cy.contains("#totals_table tr", "Total:").find("td").last().should(($t) => {
+          expect(paraNumero($t.text())).to.be.closeTo(subtotal + frete, 0.001);
+        });
+      });
+    });
     // total do topo = 3 x 29.50 + 19.00
     totalTopo().should(($t) => expect(paraNumero($t.text())).to.be.closeTo(107.5, 0.001));
     contadorTopo().should(($l) => expect($l.text().trim()).to.eq("4"));

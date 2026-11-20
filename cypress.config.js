@@ -13,7 +13,7 @@ module.exports = defineConfig({
     screenshotOnRunFailure: true,
     screenshotsFolder: "evidencias/screenshots",
     videosFolder: "evidencias/videos",
-    trashAssetsBeforeRuns: true,
+    trashAssetsBeforeRuns: false,
     retries: { runMode: 1, openMode: 0 },
   },
 });
