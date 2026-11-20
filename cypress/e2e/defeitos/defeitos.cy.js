@@ -19,7 +19,7 @@ describe("Defeitos identificados na aplicação", () => {
     cy.get(".contentpanel").then(($c) => {
       const noCarrinho = $c.text().includes("Product with options and stock locations");
       const temAviso = /out of stock|insufficient|not available|\*\*\*/i.test($c.text()) ||
-        $("body").find(".alert-error, .alert-danger, .alert-warning").length > 0;
+        Cypress.$("body").find(".alert-error, .alert-danger, .alert-warning").length > 0;
       // esperado: ou o item não entra no carrinho, ou a interface avisa sobre a falta de estoque
       expect(!noCarrinho || temAviso, "item sem estoque aceito sem nenhum aviso").to.eq(true);
     });

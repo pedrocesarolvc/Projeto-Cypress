@@ -78,7 +78,8 @@ describe("Módulo 03 - Gerenciamento do carrinho", () => {
     valorDaLinha("Sub-Total").should("be.closeTo", 107.5, 0.001);
     valorDaLinha("Sub-Total").then((subtotal) => {
       valorDaLinha("Flat Shipping Rate").then((frete) => {
-        cy.contains("#totals_table tr", "Total:").find("td").last().should(($t) => {
+        // linha "Total:" (texto exato, para não confundir com "Sub-Total:")
+        cy.contains("#totals_table td", /^\s*Total:\s*$/).parent("tr").find("td").last().should(($t) => {
           expect(paraNumero($t.text())).to.be.closeTo(subtotal + frete, 0.001);
         });
       });
