@@ -1,5 +1,5 @@
 
-DevTools listening on ws://127.0.0.1:43133/devtools/browser/fc2a36f6-3c3e-4e0d-8375-00807a654dc7
+DevTools listening on ws://127.0.0.1:37121/devtools/browser/f4764b77-6746-40a7-ade8-836e4e21bfe6
 
 tput: No value for $TERM and no -T specified
 [90m====================================================================================================[39m
@@ -27,7 +27,7 @@ tput: No value for $TERM and no -T specified
   [31m  2) D-02 [RF-12] produto sem estoque não deve entrar no carrinho nem sem aviso quando adicionado por URL[0m
 
 
-[92m [0m[32m 0 passing[0m[90m (33s)[0m
+[92m [0m[32m 0 passing[0m[90m (36s)[0m
 [31m  2 failing[0m
 
 [0m  1) Defeitos identificados na aplicação
@@ -37,8 +37,8 @@ tput: No value for $TERM and no -T specified
 [0m
 [0m  2) Defeitos identificados na aplicação
        D-02 [RF-12] produto sem estoque não deve entrar no carrinho nem sem aviso quando adicionado por URL:
-[0m[31m     ReferenceError: $ is not defined[0m[90m
-      at Context.eval (webpack://cypress-automation-test-store/./cypress/e2e/defeitos/defeitos.cy.js:21:73)
+[0m[31m     AssertionError: item sem estoque aceito sem nenhum aviso: expected false to equal true[0m[90m
+      at Context.eval (webpack://cypress-automation-test-store/./cypress/e2e/defeitos/defeitos.cy.js:24:85)
 [0m
 
 
@@ -53,7 +53,7 @@ tput: No value for $TERM and no -T specified
 [90m  │[39m [90mSkipped:[39m      [31m0[39m                                                                                [90m│[39m
 [90m  │[39m [90mScreenshots:[39m  [31m8[39m                                                                                [90m│[39m
 [90m  │[39m [90mVideo:[39m        [31mtrue[39m                                                                             [90m│[39m
-[90m  │[39m [90mDuration:[39m     [31m32 seconds[39m                                                                       [90m│[39m
+[90m  │[39m [90mDuration:[39m     [31m35 seconds[39m                                                                       [90m│[39m
 [90m  │[39m [90mSpec Ran:[39m     [31m[31mdefeitos.cy.js[31m[39m                                                                   [90m│[39m
 [90m  └[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m┘[39m
 
@@ -75,7 +75,7 @@ tput: No value for $TERM and no -T specified
 [90m [39m -  [0m/home/runner/work/Projeto-Cypress/Projeto-Cypress/evidencias/screenshots/defeito[0m     [90m[90m(1280x720)[90m[39m
 [90m [39m    [0ms.cy.js/Defeitos identificados na aplicação -- D-02 [RF-12] produto sem estoque [0m               
 [90m [39m    [0mnão deve entrar no carrinho nem sem aviso quando adicionado por URL (failed).png[0m               
-[90m [39m -  [0m/home/runner/work/Projeto-Cypress/Projeto-Cypress/evidencias/screenshots/defeito[0m    [90m[90m(1280x1406)[90m[39m
+[90m [39m -  [0m/home/runner/work/Projeto-Cypress/Projeto-Cypress/evidencias/screenshots/defeito[0m    [90m[90m(1280x1458)[90m[39m
 [90m [39m    [0ms.cy.js/D-02-produto-sem-estoque-no-carrinho (attempt 2).png[0m                                   
 [90m [39m -  [0m/home/runner/work/Projeto-Cypress/Projeto-Cypress/evidencias/screenshots/defeito[0m     [90m[90m(1280x720)[90m[39m
 [90m [39m    [0ms.cy.js/Defeitos identificados na aplicação -- D-02 [RF-12] produto sem estoque [0m               
@@ -88,15 +88,15 @@ tput: No value for $TERM and no -T specified
   -  Video output: [36m/home/runner/work/Projeto-Cypress/Projeto-Cypress/evidencias/videos/defeitos.cy.js.mp4[39m
 
 
-tput: No value for $TERM and no -T specified
 [90m====================================================================================================[39m
 
+tput: No value for $TERM and no -T specified
 [0m  ([4m[1mRun Finished[22m[24m)[0m
 
 
 [90m   [39m    [90mSpec[39m                                              [90mTests[39m  [90mPassing[39m  [90mFailing[39m  [90mPending[39m  [90mSkipped[39m [90m [39m
 [90m  ┌[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m┐[39m
-[90m  │[39m [31m✖[39m  [0mdefeitos.cy.js[0m                           [90m00:32[39m        [0m2[0m        [90m-[39m        [31m2[39m        [90m-[39m        [90m-[39m [90m│[39m
+[90m  │[39m [31m✖[39m  [0mdefeitos.cy.js[0m                           [90m00:35[39m        [0m2[0m        [90m-[39m        [31m2[39m        [90m-[39m        [90m-[39m [90m│[39m
 [90m  └[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m─[39m[90m┘[39m
-[90m   [39m [31m✖[39m  [31m1 of 1 failed (100%)[39m                     [90m00:32[39m        [0m2[0m        [90m-[39m        [31m2[39m        [90m-[39m        [90m-[39m [90m [39m
+[90m   [39m [31m✖[39m  [31m1 of 1 failed (100%)[39m                     [90m00:35[39m        [0m2[0m        [90m-[39m        [31m2[39m        [90m-[39m        [90m-[39m [90m [39m
 
