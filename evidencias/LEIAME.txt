@@ -1,1 +1,0 @@
-Coloque aqui os screenshots das execuções (baixados do GitHub Actions).

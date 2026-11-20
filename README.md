@@ -73,9 +73,11 @@ Os testes são independentes: cada um faz seu próprio login no `beforeEach` e n
 - Vídeos: `cypress/videos/`
 - Para executar na nuvem (sem computador), o workflow `.github/workflows/cypress.yml` roda a suíte no GitHub Actions e publica screenshots e vídeos como artefatos da execução (aba **Actions**).
 
-## Como gerar as evidências na nuvem (sem computador)
+## Evidências da execução
 
-1. Suba o projeto em um repositório GitHub.
-2. Abra a aba **Actions** e aguarde a execução "Testes Cypress" ficar verde.
-3. Dentro da execução, baixe os artefatos `evidencias-screenshots` e `evidencias-videos`.
-4. Coloque os prints na pasta `evidencias/` do repositório e inclua também um print da tela da execução com os testes aprovados.
+Resultado da suíte no GitHub Actions: **11 testes, 11 aprovados** (aba Actions, execução "Testes Cypress #4").
+
+- Screenshots: `evidencias/screenshots/` (um por requisito, RF-01 a RF-08, e três do fluxo E2E)
+- Vídeos de cada arquivo de teste: `evidencias/videos/`
+
+Para gerar novamente na nuvem: aba **Actions** → execução mais recente → seção **Artifacts** (`evidencias-screenshots` e `evidencias-videos`).
